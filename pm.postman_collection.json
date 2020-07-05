@@ -1,0 +1,324 @@
+{
+	"info": {
+		"_postman_id": "51501b20-16d1-42ca-856a-8414ed6243af",
+		"name": "DemoNodeJsService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "admin_only",
+			"item": [
+				{
+					"name": "clear database",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_url}}/database/drop/",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"database",
+								"drop",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "c_user",
+			"item": [
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_url}}/users/",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all by id list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_url}}/users/5efea51be055ed373839d2c0,5efea52de055ed373839d2c1",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"users",
+								"5efea51be055ed373839d2c0,5efea52de055ed373839d2c1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by key",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_url}}/user/key/{{unique_key_1}}",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"user",
+								"key",
+								"{{unique_key_1}}"
+							]
+						},
+						"description": "get an user by unique key.\r\nif not found on datatabse, create one and return."
+					},
+					"response": []
+				},
+				{
+					"name": "get by many key",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_url}}/user/keys/tuan5@gmail.com,tuan8@gmail.com,tuan7@gmail.com",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"user",
+								"keys",
+								"tuan5@gmail.com,tuan8@gmail.com,tuan7@gmail.com"
+							]
+						},
+						"description": "get an user by unique key.\r\nif not found on datatabse, create one and return."
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_url}}/user/id/5efea51be055ed373839d2c0",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"user",
+								"id",
+								"5efea51be055ed373839d2c0"
+							]
+						},
+						"description": "get an user by database id.\r\nif not found return null."
+					},
+					"response": []
+				},
+				{
+					"name": "update by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Tuan Dep Trai\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/user/id/5efea51be055ed373839d2c0",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"user",
+								"id",
+								"5efea51be055ed373839d2c0"
+							]
+						},
+						"description": "get an user by database id.\r\nif not found return null."
+					},
+					"response": []
+				},
+				{
+					"name": "get all by name (search)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"your_id\": \"5efea52de055ed373839d2c1\",\r\n    \"key\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/users/search/",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"users",
+								"search",
+								""
+							]
+						},
+						"description": "get all user with name match search key. exept your_id."
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "c_conversation",
+			"item": [
+				{
+					"name": "get by members",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\":[\r\n        [\"5efea51be055ed373839d2c0\",\"5efea52de055ed373839d2c1\"],\r\n        [\"5efea52de055ed373839d2c1\",\"5efea51be055ed373839d2c0\"]\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/conv/members/",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"conv",
+								"members",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_url}}/conv/id/5efea7aae055ed373839d2c5",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"conv",
+								"id",
+								"5efea7aae055ed373839d2c5"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "c_message",
+			"item": [
+				{
+					"name": "get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_url}}/message/place_message_id_here",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"message",
+								"place_message_id_here"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by conversation_id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_url}}/messages/5efef5944dbd2628ccf46942",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"messages",
+								"5efef5944dbd2628ccf46942"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "c_other",
+			"item": [
+				{
+					"name": "get conv_holder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"yourId\": \"5efee851665fa223840c4281\",\r\n    \"andId\": \"5efee851665fa223840c4280\",\r\n    \"ids\": [\r\n        [\r\n            \"5efee851665fa223840c4280\",\r\n            \"5efee851665fa223840c4281\"\r\n        ],\r\n        [\r\n            \"5efee851665fa223840c4281\",\r\n            \"5efee851665fa223840c4280\"\r\n        ]\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_url}}/other/get_holder_by_member/",
+							"host": [
+								"{{root_url}}"
+							],
+							"path": [
+								"other",
+								"get_holder_by_member",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
