@@ -51,6 +51,7 @@ app.post('/user/key/', async (req,res) => {
       var new_user = new UserModel({
         key: req.body.key,
         name: req.body.name == null ? req.body.key : req.body.name,
+        avatar: req.body.avatar,
         off_time: null,
       });
       user = await new_user.save();
@@ -66,6 +67,7 @@ app.post('/user/keys/', async (req,res) => {
   try{
     var keys = req.body.keys;
     var names = req.body.names;
+    var avatars = req.body.avatars;
     var users = await Promise.all(keys.map(async key => {
       var index = keys.indexOf(key);
       var user = await UserModel.findOne({key:key}).select("-password").exec();
@@ -74,6 +76,7 @@ app.post('/user/keys/', async (req,res) => {
         var new_user = new UserModel({
           key: key,
           name: names == null ? key : names[index],
+          avatar: avatars == null ? null : avatars[index],
           off_time:null,
         });
         user = await new_user.save();
@@ -226,6 +229,7 @@ var Schema = Mongoose.Schema;
 const UserSchema = Schema({
   key: {type:String, unique:true},
   name: {type: String},
+  avatar: {type: String},
   off_time: {type: String},
   // friend_ids: {type: [String]},
   // request_ids: {type: [String]},
