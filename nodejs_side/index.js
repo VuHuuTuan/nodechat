@@ -43,17 +43,15 @@ app.get('/users/', async (req,res) => {
   }
 });
 
-app.get('/user/key/:key', async (req,res) => {
+app.post('/user/key/', async (req,res) => {
   try{
-    var user = await UserModel.findOne({key:req.params.key}).select("-password").exec();
+    var user = await UserModel.findOne({key:req.body.key}).select("-password").exec();
     var exits = user != null;
     if(!exits) {
       var new_user = new UserModel({
-        key: req.params.key,
-        name:  req.params.key,
-        off_time:null,
-        // friend_ids:[],
-        // request_ids:[],
+        key: req.body.key,
+        name: req.body.name == null ? req.body.key : req.body.name,
+        off_time: null,
       });
       user = await new_user.save();
     }
@@ -64,16 +62,18 @@ app.get('/user/key/:key', async (req,res) => {
   }
 });
 
-app.get('/user/keys/:keys', async (req,res) => {
+app.post('/user/keys/', async (req,res) => {
   try{
-    var keys = req.params.keys.split(",");
+    var keys = req.body.keys;
+    var names = req.body.names;
     var users = await Promise.all(keys.map(async key => {
+      var index = keys.indexOf(key);
       var user = await UserModel.findOne({key:key}).select("-password").exec();
       var exits = user != null;
       if(!exits) {
         var new_user = new UserModel({
           key: key,
-          name: key,
+          name: names == null ? key : names[index],
           off_time:null,
         });
         user = await new_user.save();
