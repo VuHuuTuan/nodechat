@@ -210,6 +210,7 @@ app.post('/other/get_holder_by_member/', async (req,res) => {
       conversation_id: conversation._id,
       user_id: req.body.andId,
       user_name: user.name,
+      user_avatar: user.avatar,
       off_time: user.off_time,
       unseen_count: unseen.length,
       last_message_content: messages.length > 0 ? messages[messages.length - 1].content : null,
