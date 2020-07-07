@@ -32,7 +32,7 @@ class ConversationHolder {
   }
 
   String get conversationId => _conversationId;
-  String get userId => _userKey;
+  String get userKey => _userKey;
   String get userOffTime => _userOffTime;
   Map get body => _body;
   String get lassMessContent {
@@ -47,7 +47,7 @@ class ConversationHolder {
 
   ConversationHolder.fromJson(jsonData) {
     this._conversationId = jsonData['conversation_id'];
-    this._userKey = jsonData['user_id'];
+    this._userKey = jsonData['user_key'];
     this._userOffTime = jsonData['off_time'];
     this._body = jsonData['body'];
     this._unseenCount = jsonData['unseen_count'];

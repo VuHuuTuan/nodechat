@@ -13,7 +13,7 @@ class NodeChatConvNotifier extends ChangeNotifier {
     _holders = await _getConvHolders();
     _holders?.forEach((holder) {
       holder.connect(
-        getData: () => _getConvHolder(holder.userId),
+        getData: () => _getConvHolder(holder.userKey),
         refresh: () => notifyListeners(),
       );
     });
