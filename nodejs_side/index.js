@@ -50,11 +50,13 @@ app.post('/user/key/', async (req,res) => {
     if(!exits) {
       var new_user = new UserModel({
         key: req.body.key,
-        name: req.body.name == null ? req.body.key : req.body.name,
-        avatar: req.body.avatar,
+        body: req.body.body,
         off_time: null,
       });
       user = await new_user.save();
+    }else{
+      user.set({body: req.body.body});
+      user = await user.save();
     }
     res.send(user);
   }catch (error){
@@ -66,8 +68,7 @@ app.post('/user/key/', async (req,res) => {
 app.post('/user/keys/', async (req,res) => {
   try{
     var keys = req.body.keys;
-    var names = req.body.names;
-    var avatars = req.body.avatars;
+    var bodys = req.body.bodys;
     var users = await Promise.all(keys.map(async key => {
       var index = keys.indexOf(key);
       var user = await UserModel.findOne({key:key}).select("-password").exec();
@@ -75,11 +76,13 @@ app.post('/user/keys/', async (req,res) => {
       if(!exits) {
         var new_user = new UserModel({
           key: key,
-          name: names == null ? key : names[index],
-          avatar: avatars == null ? null : avatars[index],
+          body: bodys == null ? null : bodys[index],
           off_time:null,
         });
         user = await new_user.save();
+      }else{
+        user.set({body: bodys == null ? null : bodys[index]});
+        user = await user.save();
       }
       return user;
     }));
@@ -208,10 +211,9 @@ app.post('/other/get_holder_by_member/', async (req,res) => {
     var unseen = messages.filter(mess => mess.seeners.indexOf(req.body.yourId) == -1);
     res.send({
       conversation_id: conversation._id,
-      user_id: req.body.andId,
-      user_name: user.name,
-      user_avatar: user.avatar,
+      user_key: req.body.andId,
       off_time: user.off_time,
+      body: user.body,
       unseen_count: unseen.length,
       last_message_content: messages.length > 0 ? messages[messages.length - 1].content : null,
       last_message_type: messages.length > 0 ? messages[messages.length - 1].type : null,
@@ -229,11 +231,8 @@ app.post('/other/get_holder_by_member/', async (req,res) => {
 var Schema = Mongoose.Schema;
 const UserSchema = Schema({
   key: {type:String, unique:true},
-  name: {type: String},
-  avatar: {type: String},
   off_time: {type: String},
-  // friend_ids: {type: [String]},
-  // request_ids: {type: [String]},
+  body: {type: Map},
 });
 UserSchema.index({name: 'text'});
 const UserModel = Mongoose.model("users", UserSchema);

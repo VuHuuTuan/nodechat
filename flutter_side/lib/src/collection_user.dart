@@ -30,10 +30,10 @@ class UserCollection extends Collection implements UserCollectionInterface {
   }
 
   @override
-  Future<User> getByKey(String yourUniqueKey, [String name, String avatar]) {
+  Future<User> getByKey(String yourUniqueKey, [Map<String, dynamic> body]) {
     return cPost<User>(
       api: "/user/key/",
-      body: {"key": yourUniqueKey, "name": name, "avatar": avatar},
+      body: {"key": yourUniqueKey, "body": body},
       converter: (body) => body.readAsUser,
     );
   }
@@ -65,10 +65,10 @@ class UserCollection extends Collection implements UserCollectionInterface {
   }
 
   @override
-  Future<List<User>> getByKeys(List<String> yourListUniqueKey, [List<String> names, List<String> avatars]) {
+  Future<List<User>> getByKeys(List<String> yourListUniqueKey, [List<Map<String, dynamic>> bodys]) {
     return cPost<List<User>>(
       api: "/user/keys/",
-      body: {"keys": yourListUniqueKey, "names": names, "avatars": avatars},
+      body: {"keys": yourListUniqueKey, "bodys": bodys},
       converter: (body) => body.readAsListUser,
     );
   }

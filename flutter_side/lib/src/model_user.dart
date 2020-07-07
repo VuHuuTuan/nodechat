@@ -9,46 +9,30 @@ extension UserConvertExtensions on String {
 
 class User extends MongooModel {
   String _uniqueKey;
-  String _name;
-  String _avatar;
+  Map _body;
   String _offTime;
-  // List<String> _friendIds;
-  // List<String> _requestIds;
 
   String get uniqueKey => _uniqueKey;
-  String get name => _name;
-  String get avatar => _avatar;
+  Map get body => _body;
   String get offtime => _offTime;
-  // List<String> get friendIds => _friendIds;
-  // List<String> get requestIds => _requestIds;
 
-  User(this._name, [this._offTime]);
-
-  User.create(this._uniqueKey) {
-    this._name = _uniqueKey;
+  User.create(this._uniqueKey, [Map body]) {
     this._offTime = DateTime.now().toString();
-    // this._friendIds = [];
-    // this._requestIds = [];
+    this._body = body;
   }
 
   User.fromJson(jsonData) : super.fromJson(jsonData) {
     this._uniqueKey = jsonData['key'];
-    this._name = jsonData['name'];
-    this._avatar = jsonData['avatar'];
+    this._body = jsonData['body'];
     this._offTime = jsonData['off_time'];
-    // this._friendIds = jsonData['friend_ids'].cast<String>();
-    // this._requestIds = jsonData['request_ids'].cast<String>();
   }
 
   @override
   Map<String, dynamic> get toMap {
     return {
       "key": _uniqueKey,
-      "name": _name,
+      "body": _body,
       "off_time": _offTime,
-      "avatar": _avatar,
-      // "friend_ids": _friendIds,
-      // "request_ids": _requestIds,
     };
   }
 }

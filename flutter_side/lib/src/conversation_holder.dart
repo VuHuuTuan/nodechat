@@ -14,12 +14,11 @@ const String kMessageSendEvent = "message_send";
 
 class ConversationHolder {
   String _conversationId;
-  String _userId;
-  String _userName;
-  String _userAvatar;
+  String _userKey;
   String _userOffTime;
   String _lassMessContent;
   String _lassMessType;
+  Map _body;
   int _unseenCount;
 
   io.Socket socket;
@@ -33,10 +32,9 @@ class ConversationHolder {
   }
 
   String get conversationId => _conversationId;
-  String get userId => _userId;
-  String get userName => _userName;
-  String get userAvatar => _userAvatar;
+  String get userId => _userKey;
   String get userOffTime => _userOffTime;
+  Map get body => _body;
   String get lassMessContent {
     if (_lassMessType == "text") return _lassMessContent;
     if (_lassMessType == "media") return "[Media]";
@@ -49,10 +47,9 @@ class ConversationHolder {
 
   ConversationHolder.fromJson(jsonData) {
     this._conversationId = jsonData['conversation_id'];
-    this._userId = jsonData['user_id'];
-    this._userName = jsonData['user_name'];
-    this._userAvatar = jsonData['user_avatar'];
+    this._userKey = jsonData['user_id'];
     this._userOffTime = jsonData['off_time'];
+    this._body = jsonData['body'];
     this._unseenCount = jsonData['unseen_count'];
     this._lassMessContent = jsonData['last_message_content'];
     this._lassMessType = jsonData['last_message_type'];
@@ -82,7 +79,7 @@ class ConversationHolder {
     if (getData != null && refresh != null) {
       print("selfUpdate[$_conversationId]");
       getData().then((newHolder) {
-        this._userName = newHolder.userName;
+        this._body = newHolder.body;
         this._userOffTime = newHolder.userOffTime;
         this._unseenCount = newHolder.unseenCount;
         this._lassMessContent = newHolder.lassMessContent;
