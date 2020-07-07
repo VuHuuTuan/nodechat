@@ -8,7 +8,7 @@ abstract class UserCollectionInterface {
   Future<User> putById(String id, {Map<String, dynamic> data});
   Future<List<User>> getByKeys(List<String> yourListUniqueKey);
   Future<List<User>> getByGroupId(List<String> groupOfId);
-  Future<List<User>> getBySearchKey(String searchKey);
+  Future<List<User>> getAllExceptId(String id);
   Future<List<User>> getAll();
 }
 
@@ -39,11 +39,10 @@ class UserCollection extends Collection implements UserCollectionInterface {
   }
 
   @override
-  Future<List<User>> getBySearchKey(String searchKey) {
-    return cPost<List<User>>(
-      api: "/users/search/",
+  Future<List<User>> getAllExceptId(String id) {
+    return cGet<List<User>>(
+      api: "/users/except/" + id,
       converter: (body) => body.readAsListUser,
-      body: <String, dynamic>{"your_id": yourUserId, "key": searchKey},
     );
   }
 

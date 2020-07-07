@@ -126,18 +126,12 @@ app.get('/users/:ids', async (req,res) => {
   }
 });
 
-app.post('/users/search/', async (req,res) => {
+app.get('/users/except/:id', async (req,res) => {
   try{
     //Partial text search
     var users = await UserModel.find({
-      $and: [
-        { _id: {
-          $ne: req.body.your_id
-        }},
-      ],
-      name: {
-        $regex: ".*" +req.body.key +".*", 
-        $options: 'i'
+      _id: {
+        $ne: req.params.id
       }
     }).select("-password").exec();
     res.send(users);
@@ -234,7 +228,6 @@ const UserSchema = Schema({
   off_time: {type: String},
   body: {type: Map},
 });
-UserSchema.index({name: 'text'});
 const UserModel = Mongoose.model("users", UserSchema);
 const ConversationModel = Mongoose.model("conversations", {
   members: [String],

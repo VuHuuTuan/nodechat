@@ -33,7 +33,7 @@ class NodeChatConvNotifier extends ChangeNotifier {
 
   Future<List<ConversationHolder>> _getConvHolders() async {
     try {
-      final otherUsers = await NodeChat.instance.collection.user.getBySearchKey("");
+      final otherUsers = await NodeChat.instance.collection.user.getAllExceptId("");
       return await Future.wait(otherUsers.map((user) => _getConvHolder(user.documentId)).toList());
     } catch (e) {
       print(e);
