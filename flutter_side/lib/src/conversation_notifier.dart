@@ -5,10 +5,12 @@ import '../nodechat.dart';
 class NodeChatConvNotifier extends ChangeNotifier {
   List<ConversationHolder> _holders;
   List<ConversationHolder> get holders => _holders;
+  bool Function(User) _fillter;
 
   int get totalUnreadCount => holders?.fold(0, (value, conv) => conv.unseenCount + value) ?? 0;
 
-  Future<void> init() async {
+  Future<void> init([bool Function(User) fillter]) async {
+    _fillter = fillter;
     await clearData();
     _holders = await _getConvHolders();
     _holders?.forEach((holder) {
@@ -34,6 +36,7 @@ class NodeChatConvNotifier extends ChangeNotifier {
   Future<List<ConversationHolder>> _getConvHolders() async {
     try {
       final otherUsers = await NodeChat.instance.collection.user.getAllExceptId(NodeChat.instance.yourUserId);
+      if (_fillter != null) otherUsers.retainWhere(_fillter);
       return await Future.wait(otherUsers.map((user) => _getConvHolder(user.documentId)).toList());
     } catch (e) {
       print(e);
